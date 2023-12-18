@@ -1,7 +1,7 @@
 package com.cubk.nsc2.packet.wrappers.client;
 
-import com.cubk.nsc2.packet.PacketData;
 import com.cubk.nsc2.packet.ClientPacketWrapper;
+import com.cubk.nsc2.packet.PacketData;
 import io.netty.buffer.ByteBuf;
 
 public class C17PacketCustomPayload implements ClientPacketWrapper {
@@ -10,7 +10,7 @@ public class C17PacketCustomPayload implements ClientPacketWrapper {
 
     @Override
     public void parser(ByteBuf buf, PacketData packetData) {
-        this.channel = readStringFromBuffer(buf,20);
+        this.channel = readStringFromBuffer(buf, 20);
         int length = buf.readableBytes();
 
         if (length >= 0 && length <= 32767) {

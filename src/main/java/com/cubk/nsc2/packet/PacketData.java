@@ -1,14 +1,19 @@
 package com.cubk.nsc2.packet;
 
+import lombok.Getter;
+import lombok.Setter;
+
 import java.util.ArrayList;
 import java.util.List;
 
 public class PacketData {
     public final Class<?> packetClass;
-    public String packetName;
+    @Getter
+    private final List<Data> dataList;
     public final boolean outgoing;
     public final long time;
-    private final List<Data> dataList;
+    @Setter
+    public String packetName;
 
     public PacketData(Class<?> packetClass, String packetName, boolean outgoing) {
         this.packetClass = packetClass;
@@ -18,15 +23,7 @@ public class PacketData {
         this.dataList = new ArrayList<>();
     }
 
-    public void setPacketName(String packetName) {
-        this.packetName = packetName;
-    }
-
-    public List<Data> getDataList() {
-        return dataList;
-    }
-
-    public static class Data{
+    public static class Data {
         public final Class<?> type;
         public final String name;
         public final String value;

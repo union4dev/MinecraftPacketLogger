@@ -10,8 +10,7 @@ public enum EnumFacing {
     WEST,
     EAST;
 
-    public static EnumFacing getFront(int index)
-    {
+    public static EnumFacing getFront(int index) {
         return values()[MathHelper.abs_int(index % values().length)];
     }
 }

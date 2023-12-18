@@ -10,9 +10,9 @@ public class AbuseDetector implements Module {
 
     @Override
     public boolean handleClientPacket(ClientPacketWrapper wrapper) {
-        if(wrapper instanceof C03PacketPlayer){
-            if(wrapper instanceof C05PacketPlayerLook || wrapper instanceof C06PacketPlayerPosLook){
-                if(((C03PacketPlayer) wrapper).pitch > 90 || ((C03PacketPlayer) wrapper).pitch < -90){
+        if (wrapper instanceof C03PacketPlayer) {
+            if (wrapper instanceof C05PacketPlayerLook || wrapper instanceof C06PacketPlayerPosLook) {
+                if (((C03PacketPlayer) wrapper).pitch > 90 || ((C03PacketPlayer) wrapper).pitch < -90) {
                     log("Invalid pitch detected, possibly exploit abuse! (" + ((C03PacketPlayer) wrapper).pitch + ")");
                 }
             }

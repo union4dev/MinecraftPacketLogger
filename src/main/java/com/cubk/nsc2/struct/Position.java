@@ -1,9 +1,9 @@
 package com.cubk.nsc2.struct;
 
-
-import com.cubk.nsc2.packet.wrappers.client.C03PacketPlayer;
 import com.cubk.nsc2.util.MathHelper;
+import lombok.Getter;
 
+@Getter
 public class Position {
     private static final int NUM_X_BITS = 1 + MathHelper.calculateLogBaseTwo(MathHelper.roundUpToPowerOfTwo(30000000));
     private static final int NUM_Z_BITS = NUM_X_BITS;
@@ -19,20 +19,10 @@ public class Position {
         this.z = z;
     }
 
-    public Position(C03PacketPlayer packet) {
-        this.x = packet.x;
-        this.y = packet.y;
-        this.z = packet.z;
-    }
-
     public void add(double x, double y, double z) {
         this.x += x;
         this.y += y;
         this.z += z;
-    }
-
-    public Position createAdded(double x, double y, double z) {
-        return new Position(this.x + x, this.y + y, this.z + z);
     }
 
     public void add(Position position) {
@@ -41,35 +31,10 @@ public class Position {
         this.z += position.getZ();
     }
 
-    public double getX() {
-        return x;
-    }
-
-    public double getY() {
-        return y;
-    }
-
-    public double getZ() {
-        return z;
-    }
-
-    public void setX(double x) {
-        this.x = x;
-    }
-
-    public void setY(double y) {
-        this.y = y;
-    }
-
-    public void setZ(double z) {
-        this.z = z;
-    }
-
-    public static Position fromLong(long serialized)
-    {
-        int i = (int)(serialized << 64 - X_SHIFT - NUM_X_BITS >> 64 - NUM_X_BITS);
-        int j = (int)(serialized << 64 - Y_SHIFT - NUM_Y_BITS >> 64 - NUM_Y_BITS);
-        int k = (int)(serialized << 64 - NUM_Z_BITS >> 64 - NUM_Z_BITS);
+    public static Position fromLong(long serialized) {
+        int i = (int) (serialized << 64 - X_SHIFT - NUM_X_BITS >> 64 - NUM_X_BITS);
+        int j = (int) (serialized << 64 - Y_SHIFT - NUM_Y_BITS >> 64 - NUM_Y_BITS);
+        int k = (int) (serialized << 64 - NUM_Z_BITS >> 64 - NUM_Z_BITS);
         return new Position(i, j, k);
     }
 

@@ -40,7 +40,7 @@ public class MotionCalculator implements Module {
                     movementYaw = MathHelper.wrapAngleTo180_float(movementYaw);
                 }
                 lastPosition = new Position(playerPosition.x, playerPosition.y, playerPosition.z);
-            } else if(packet instanceof C06PacketPlayerPosLook) {
+            } else if (packet instanceof C06PacketPlayerPosLook) {
                 final C06PacketPlayerPosLook playerPosLook = (C06PacketPlayerPosLook) packet;
                 if (lastPosition != null) {
                     this.yaw = playerPosLook.yaw;
@@ -64,7 +64,7 @@ public class MotionCalculator implements Module {
         return false;
     }
 
-    public float getStrafeDifferences(){
+    public float getStrafeDifferences() {
         return Math.abs(MathHelper.wrapAngleTo180_float(movementYaw - yaw));
     }
 }

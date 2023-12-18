@@ -16,56 +16,43 @@ import java.nio.charset.StandardCharsets;
 public interface Packet {
     void parser(ByteBuf buf, PacketData packetData);
 
-    default Position readPosition(ByteBuf buf)
-    {
+    default Position readPosition(ByteBuf buf) {
         return Position.fromLong(buf.readLong());
     }
 
-    default <T extends Enum<T>> T readEnumValue(Class<T> enumClass,ByteBuf buf)
-    {
-        return (T)((Enum[])enumClass.getEnumConstants())[readVarIntFromBuffer(buf)];
+    default <T extends Enum<T>> T readEnumValue(Class<T> enumClass, ByteBuf buf) {
+        return (T) ((Enum[]) enumClass.getEnumConstants())[readVarIntFromBuffer(buf)];
     }
 
-    default String readStringFromBuffer(ByteBuf buf,int maxLength)
-    {
+    default String readStringFromBuffer(ByteBuf buf, int maxLength) {
         int i = this.readVarIntFromBuffer(buf);
 
-        if (i > maxLength * 4)
-        {
+        if (i > maxLength * 4) {
             throw new DecoderException("The received encoded string buffer length is longer than maximum allowed (" + i + " > " + maxLength * 4 + ")");
-        }
-        else if (i < 0)
-        {
+        } else if (i < 0) {
             throw new DecoderException("The received encoded string buffer length is less than zero! Weird string!");
-        }
-        else
-        {
+        } else {
             String s = new String(buf.readBytes(i).array(), StandardCharsets.UTF_8);
 
-            if (s.length() > maxLength)
-            {
+            if (s.length() > maxLength) {
                 throw new DecoderException("The received string length is longer than maximum allowed (" + i + " > " + maxLength + ")");
-            }
-            else
-            {
+            } else {
                 return s;
             }
         }
     }
 
-    default ItemStack readItemStackFromBuffer(ByteBuf buf)
-    {
+    default ItemStack readItemStackFromBuffer(ByteBuf buf) {
         ItemStack itemstack = null;
         int i = buf.readShort();
 
-        if (i >= 0)
-        {
+        if (i >= 0) {
             try {
                 int j = buf.readByte();
                 int k = buf.readShort();
                 itemstack = new ItemStack(i, j, k);
                 this.readNBTTagCompoundFromBuffer(buf);
-            }catch (Exception e){
+            } catch (Exception e) {
                 e.printStackTrace();
             }
         }
@@ -77,34 +64,24 @@ public interface Packet {
         int i = buf.readerIndex();
         byte b0 = buf.readByte();
 
-        if (b0 == 0)
-        {
+        if (b0 == 0) {
             return null;
-        }
-        else
-        {
+        } else {
             buf.readerIndex(i);
             return read(new ByteBufInputStream(buf), new NBTSizeTracker(2097152L));
         }
     }
 
-    default NBTTagCompound read(File p_74797_0_) throws IOException
-    {
-        if (!p_74797_0_.exists())
-        {
+    default NBTTagCompound read(File p_74797_0_) throws IOException {
+        if (!p_74797_0_.exists()) {
             return null;
-        }
-        else
-        {
+        } else {
             DataInputStream datainputstream = new DataInputStream(new FileInputStream(p_74797_0_));
             NBTTagCompound nbttagcompound;
 
-            try
-            {
+            try {
                 nbttagcompound = read(datainputstream, NBTSizeTracker.INFINITE);
-            }
-            finally
-            {
+            } finally {
                 datainputstream.close();
             }
 
@@ -115,12 +92,9 @@ public interface Packet {
     default NBTTagCompound read(DataInput p_152456_0_, NBTSizeTracker p_152456_1_) throws IOException {
         NBTBase nbtbase = func_152455_a(p_152456_0_, 0, p_152456_1_);
 
-        if (nbtbase instanceof NBTTagCompound)
-        {
-            return (NBTTagCompound)nbtbase;
-        }
-        else
-        {
+        if (nbtbase instanceof NBTTagCompound) {
+            return (NBTTagCompound) nbtbase;
+        } else {
             throw new IOException("Root tag must be a named compound tag");
         }
     }
@@ -128,23 +102,17 @@ public interface Packet {
     default NBTBase func_152455_a(DataInput p_152455_0_, int p_152455_1_, NBTSizeTracker p_152455_2_) throws IOException {
         byte b0 = p_152455_0_.readByte();
 
-        if (b0 == 0)
-        {
+        if (b0 == 0) {
             return new NBTTagEnd();
-        }
-        else
-        {
+        } else {
 
 
-            try
-            {
+            try {
                 p_152455_0_.readUTF();
                 NBTBase nbtbase = NBTBase.createNewByType(b0);
                 nbtbase.read(p_152455_0_, p_152455_1_, p_152455_2_);
                 return nbtbase;
-            }
-            catch (IOException ioexception)
-            {
+            } catch (IOException ioexception) {
                 ioexception.printStackTrace();
                 return null;
             }
@@ -152,23 +120,19 @@ public interface Packet {
     }
 
 
-    default int readVarIntFromBuffer(ByteBuf buf)
-    {
+    default int readVarIntFromBuffer(ByteBuf buf) {
         int i = 0;
         int j = 0;
 
-        while (true)
-        {
+        while (true) {
             byte b0 = buf.readByte();
             i |= (b0 & 127) << j++ * 7;
 
-            if (j > 5)
-            {
+            if (j > 5) {
                 throw new RuntimeException("VarInt too big");
             }
 
-            if ((b0 & 128) != 128)
-            {
+            if ((b0 & 128) != 128) {
                 break;
             }
         }

@@ -1,7 +1,7 @@
 package com.cubk.nsc2.packet.wrappers.client;
 
-import com.cubk.nsc2.packet.PacketData;
 import com.cubk.nsc2.packet.ClientPacketWrapper;
+import com.cubk.nsc2.packet.PacketData;
 import io.netty.buffer.ByteBuf;
 
 public class C0DPacketCloseWindow implements ClientPacketWrapper {
@@ -11,11 +11,11 @@ public class C0DPacketCloseWindow implements ClientPacketWrapper {
     @Override
     public void parser(ByteBuf buf, PacketData packetData) {
         this.windowId = buf.readByte();
-        packetData.getDataList().add(new PacketData.Data(Integer.class,"windowId",windowId));
+        packetData.getDataList().add(new PacketData.Data(Integer.class, "windowId", windowId));
     }
 
     @Override
     public String wrapToString() {
-        return String.format("new C0DPacketCloseWindow(%s)",windowId);
+        return String.format("new C0DPacketCloseWindow(%s)", windowId);
     }
 }

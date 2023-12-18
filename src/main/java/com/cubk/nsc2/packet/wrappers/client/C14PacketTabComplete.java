@@ -1,7 +1,7 @@
 package com.cubk.nsc2.packet.wrappers.client;
 
-import com.cubk.nsc2.packet.PacketData;
 import com.cubk.nsc2.packet.ClientPacketWrapper;
+import com.cubk.nsc2.packet.PacketData;
 import com.cubk.nsc2.struct.Position;
 import io.netty.buffer.ByteBuf;
 
@@ -11,7 +11,7 @@ public class C14PacketTabComplete implements ClientPacketWrapper {
 
     @Override
     public void parser(ByteBuf buf, PacketData packetData) {
-        this.message = readStringFromBuffer(buf,32767);
+        this.message = readStringFromBuffer(buf, 32767);
         boolean flag = buf.readBoolean();
 
         if (flag) {

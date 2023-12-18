@@ -1,9 +1,9 @@
 package com.cubk.nsc2;
 
 import com.cubk.nsc2.gui.DebugFrame;
+import com.cubk.nsc2.handler.PacketManager;
 import com.cubk.nsc2.handler.PacketProcessor;
 import com.cubk.nsc2.handler.ThreadScanner;
-import com.cubk.nsc2.handler.PacketManager;
 import lombok.Getter;
 
 import java.io.PrintWriter;
@@ -19,15 +19,8 @@ public class NSC {
     @Getter
     private static NSC instance = new NSC();
 
-    public void start(){
-        System.out.println("[NSC] Initializing...");
-        instance = this;
-        PacketManager packetManager = new PacketManager();
-        packetProcessor = new PacketProcessor();
-
-        new ThreadScanner().start();
-        new Thread(packetManager::onLoop).start();
-        debugFrame = new DebugFrame();
+    public static void printStacktrace(Throwable throwable) {
+        throwable.printStackTrace();
     }
 
     public DebugFrame getClickGui() {
@@ -41,8 +34,15 @@ public class NSC {
         return sw.getBuffer().toString();
     }
 
-    public static void printStacktrace(Throwable throwable){
-        throwable.printStackTrace();
+    public void start() {
+        System.out.println("[NSC] Initializing...");
+        instance = this;
+        PacketManager packetManager = new PacketManager();
+        packetProcessor = new PacketProcessor();
+
+        new ThreadScanner().start();
+        new Thread(packetManager::onLoop).start();
+        debugFrame = new DebugFrame();
     }
 
     public static native void log(String string);

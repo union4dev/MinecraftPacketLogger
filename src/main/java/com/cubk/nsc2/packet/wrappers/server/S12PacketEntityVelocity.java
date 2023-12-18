@@ -17,9 +17,9 @@ public class S12PacketEntityVelocity implements ServerPacketWrapper {
         this.motionY = buf.readShort();
         this.motionZ = buf.readShort();
 
-        packetData.getDataList().add(new PacketData.Data(Integer.class,"entityId",entityID));
-        packetData.getDataList().add(new PacketData.Data(Integer.class,"motionX",motionX));
-        packetData.getDataList().add(new PacketData.Data(Integer.class,"motionY",motionY));
-        packetData.getDataList().add(new PacketData.Data(Integer.class,"motionZ",motionZ));
+        packetData.getDataList().add(new PacketData.Data(Integer.class, "entityId", entityID));
+        packetData.getDataList().add(new PacketData.Data(Integer.class, "motionX", motionX));
+        packetData.getDataList().add(new PacketData.Data(Integer.class, "motionY", motionY));
+        packetData.getDataList().add(new PacketData.Data(Integer.class, "motionZ", motionZ));
     }
 }
