@@ -43,6 +43,7 @@ public class NSC {
         new ThreadScanner().start();
         new Thread(packetManager::onLoop).start();
         debugFrame = new DebugFrame();
+        debugFrame.setVisible(true);
     }
 
     public static native void log(String string);

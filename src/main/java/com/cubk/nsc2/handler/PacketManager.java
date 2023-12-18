@@ -49,7 +49,7 @@ public class PacketManager {
             ChannelPipeline pipeline = channel.pipeline();
             if (pipeline.context(PacketListener.class) == null && pipeline.context("packet_handler") != null) {
                 channel.pipeline().addBefore("packet_handler", "lunarclient", new PacketListener());
-                NSC.getInstance().getClickGui().setVisible(true);
+
             }
 
         } else {

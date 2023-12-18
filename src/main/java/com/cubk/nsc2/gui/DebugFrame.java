@@ -96,6 +96,22 @@ public class DebugFrame extends JFrame {
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
         setSize(800, 600);
         setLocationRelativeTo(null);
+
+        JMenuBar menuBar = createMenu();
+        setJMenuBar(menuBar);
+    }
+
+    private static JMenuBar createMenu() {
+        JMenuBar menuBar = new JMenuBar();
+        JMenu toolMenu = new JMenu("Tools");
+
+        JMenuItem swapperItem = new JMenuItem("Address Swapper");
+        swapperItem.addActionListener(e -> new AddressSwapperFrame().setVisible(true));
+
+        toolMenu.add(swapperItem);
+
+        menuBar.add(toolMenu);
+        return menuBar;
     }
 
     private JPanel createUpperPanel() {

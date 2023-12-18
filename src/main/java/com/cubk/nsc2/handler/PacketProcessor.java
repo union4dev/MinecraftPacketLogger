@@ -102,6 +102,8 @@ public class PacketProcessor {
     public boolean processServerPacket(int id, Object packet, PacketData pw) {
 
         try {
+            if (Constant.class_PacketBuffer == null) return false;
+
             ServerPacketWrapper wrapper = wrappersServer.getOrDefault(id, null);
 
             if (wrapper == null) {
@@ -130,6 +132,8 @@ public class PacketProcessor {
 
     public boolean processClientPacket(int id, Object packet, PacketData pw) {
         try {
+            if (Constant.class_PacketBuffer == null) return false;
+
             ClientPacketWrapper wrapper = wrappersClient.getOrDefault(id, null);
 
             if (wrapper == null) {
