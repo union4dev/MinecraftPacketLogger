@@ -18,6 +18,7 @@ public class AddressSwapperFrame extends JFrame {
     public AddressSwapperFrame() {
         setTitle("Address Swapper");
         setLayout(new GridBagLayout());
+        setAlwaysOnTop(true);
         GridBagConstraints gbc = new GridBagConstraints();
         gbc.insets = new Insets(5, 5, 5, 5);
         originalHostField = new JTextField("mc.hypixel.net");
