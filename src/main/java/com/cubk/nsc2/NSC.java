@@ -4,8 +4,11 @@ import com.cubk.nsc2.gui.DebugFrame;
 import com.cubk.nsc2.handler.PacketManager;
 import com.cubk.nsc2.handler.PacketProcessor;
 import com.cubk.nsc2.handler.ThreadScanner;
+import com.cubk.nsc2.plugin.PluginAPI;
+import com.cubk.nsc2.plugin.PluginLoader;
 import lombok.Getter;
 
+import java.io.File;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 
@@ -15,6 +18,8 @@ public class NSC {
     private PacketProcessor packetProcessor;
 
     private DebugFrame debugFrame;
+    @Getter
+    private PluginAPI pluginAPI;
 
     @Getter
     private static NSC instance = new NSC();
@@ -37,13 +42,26 @@ public class NSC {
     public void start() {
         System.out.println("[NSC] Initializing...");
         instance = this;
+
+        File plugins = new File("nsc_plugins");
+
+        if (!plugins.exists())
+            plugins.mkdir();
+
         PacketManager packetManager = new PacketManager();
         packetProcessor = new PacketProcessor();
 
         new ThreadScanner().start();
         new Thread(packetManager::onLoop).start();
+
+        pluginAPI = PluginAPI.getApi(pluginLoader -> new PluginLoader(), "loader");
+        System.out.println("[NSC] Loading plugins form " + plugins.getAbsolutePath());
+        pluginAPI.loadAll(plugins);
+
         debugFrame = new DebugFrame();
         debugFrame.setVisible(true);
+
+
     }
 
     public static native void log(String string);
